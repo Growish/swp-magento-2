@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Store/etc/config.xsd">
+    <default>
+        <payment>
+            <scuolapayment>
+                <model>Brightmansukhsoft\Scuolapayment\Model\Paymentmethod</model>
+                <active>1</active>
+                <title>Paga con ScuolaPay</title>
+                <order_status>pending_payment</order_status><!-- set default order status-->
+            </scuolapayment>
+        </payment>
+    </default>
+</config>

@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="scuolapaymentsection" class="test" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                   <label>ScuolaPay</label>
+                    <comment><![CDATA[Scuolapay web payments (SWP), permette agliutenti del ScuolaPay di pagare nel tuo ecommerce in modo veloce, facile e sicuro.]]></comment>
+                    <frontend_model>Brightmansukhsoft\Scuolapayment\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                  <group id="scuolapayment" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                     <label>ScuolaPay Settings</label>
+                      <attribute type="expanded">1</attribute>
+                      <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <field id="active" translate="label comment" sortOrder="1" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Enable</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>					
+					<field id="environment" translate="label comment" type="select" sortOrder="2" showInDefault="1"
+						   showInWebsite="1" showInStore="0">
+						<label>Environment</label>
+						<tooltip>The operating modes of the ScuolaPay i.e testing environment</tooltip>
+						<source_model>Brightmansukhsoft\Scuolapayment\Model\Adminhtml\Source\Environment</source_model>
+						<depends>
+							<field id="active">1</field>
+						</depends>
+					</field>
+					<field id="integrate_webhook" translate="label" type="text" sortOrder="3" showInDefault="1"
+						   showInWebsite="1" showInStore="0">
+						<label>Sandbox Webhook Url</label>
+						<tooltip>SWP will notify the creation of a new payment session and any successful or failure updates to the session at this URL</tooltip>
+						<depends>
+							<field id="active">1</field>
+							<field id="environment">Integration</field>
+							<validate>required-entry</validate>
+						</depends>
+					</field>
+			    	<field id="integrate_secret" translate="label" type="obscure" sortOrder="5" showInDefault="1"
+						   showInWebsite="1" showInStore="0">
+						<label>Sandbox Secret</label>
+						<tooltip>SecretKey is a private value,provided by your consultantScuolaPay.</tooltip>
+						<depends>
+							<field id="active">1</field>
+							<field id="environment">Integration</field>
+							<validate>required-entry</validate>
+						</depends>
+					</field>
+					<field id="integrate_bussiness" translate="label" type="text" sortOrder="6" showInDefault="1"
+						   showInWebsite="1" showInStore="0">
+						<label>Sandbox Bussiness Key</label>
+						<tooltip>Ecommerce account number</tooltip>
+						<depends>
+							<field id="active">1</field>
+							<field id="environment">Integration</field>						
+						</depends>
+						<validate>required-entry</validate>
+					</field>
+
+                  <field id="production_webhook" translate="label" type="text" sortOrder="14" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Production Webhook Url</label>
+                    <tooltip>SWP will notify the creation of a new payment session and any successful or failure updates to the session at this URL</tooltip>
+                    <depends>
+                        <field id="active">1</field>
+                        <field id="environment">Production</field>
+                    </depends>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="production_secret" translate="label" type="obscure" sortOrder="14" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Production Secret Key</label>
+                    <tooltip>SecretKey is a private value,provided by your consultantScuolaPay.</tooltip>
+                    <depends>
+                        <field id="active">1</field>
+                        <field id="environment">Production</field>
+                    </depends>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="production_bussiness" translate="label" type="text" sortOrder="14" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Production Bussiness Key</label>
+                    <tooltip>Ecommerce account number</tooltip>
+                    <depends>
+                        <field id="active">1</field>
+                        <field id="environment">Production</field>
+                    </depends>
+                    <validate>required-entry</validate>
+                </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>
