@@ -16,4 +16,9 @@ class Redirectcontent extends \Magento\Framework\View\Element\Template
         return $this->_coreRegistry->registry('orderdata');
 
   }
+   public function getCacheLifetime()
+    {
+        return null;
+    }
+
 }

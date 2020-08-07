@@ -16,11 +16,13 @@ class Scuolapayredirect extends \Magento\Framework\App\Action\Action
     protected $orderRepository;
     protected $customerSession;
     private $timezone;
+    protected $_resource;
     protected $helper;
     protected $_coreRegistry = null;
     public function __construct(Context $context, PageFactory $pageFactory,
 	\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, 
 	\Brightmansukhsoft\Scuolapayment\Helper\Data $helperData,
+	\Magento\Framework\App\ResourceConnection $resource,
 	\Magento\Store\Model\StoreManagerInterface $storemanager,
 	\Magento\Checkout\Model\Session $checkoutSession, 
 	\Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
@@ -30,6 +32,7 @@ class Scuolapayredirect extends \Magento\Framework\App\Action\Action
         $this->pageFactory = $pageFactory;
         $this->scopeConfig = $scopeConfig;
         $this->helper = $helperData;
+        $this->_resource = $resource;
         $this->storemanager = $storemanager;
         $this->_checkoutSession = $checkoutSession;
         $this->orderRepository = $orderRepository;
@@ -61,9 +64,11 @@ class Scuolapayredirect extends \Magento\Framework\App\Action\Action
 		$resultPage = $this->pageFactory->create();
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         // Order details
-	 	$orderId = $this->_checkoutSession->getLastRealOrder()->getId();
+       //$orderNoData=$this->getOrderno();
+       //$orderId=$orderNoData[0]['entity_id'];
+	   $orderId = $this->_checkoutSession->getLastRealOrder()->getId();
 	 	if($orderId){
-	 	     $orderNo =$this->_checkoutSession->getLastRealOrder()->getIncrementId();
+	 	      $orderNo =$this->_checkoutSession->getLastRealOrder()->getIncrementId();
               $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
               $total_amt = number_format($order->getGrandTotal(), 2, '.', '');
               $amt=$total_amt*100;
@@ -74,21 +79,17 @@ class Scuolapayredirect extends \Magento\Framework\App\Action\Action
 	 	   $helper = $this->helper;
             $environment=$helper->getConfig('payment/scuolapayment/environment');
             if($environment=='Production'){
-                //$helper->getConfig('payment/scuolapayment/environment');
                   $redirectUrl='https://webpayments-api.scuolapay.it';
                   $webhook=$helper->getConfig('payment/scuolapaymentsection/scuolapayment/production_webhook');
                   $secret=$helper->getConfig('payment/scuolapaymentsection/scuolapayment/production_secret');
                   $business=$helper->getConfig('payment/scuolapaymentsection/scuolapayment/production_bussiness');
                   
             } else {
-                  //$helper->getConfig('payment/scuolapayment/environment');
                     $redirectUrl='https://webpayments-api-dev.scuolapay.it';
                     $webhook=$helper->getConfig('payment/scuolapaymentsection/scuolapayment/integrate_webhook');
                     $secret=$helper->getConfig('payment/scuolapaymentsection/scuolapayment/integrate_secret');
                     $business=$helper->getConfig('payment/scuolapaymentsection/scuolapayment/integrate_bussiness');
-                    //$total_amt='100';
             }
-           // $webhook;die;
              // $secret = "thisisaverybadsecret";
               $responseUrl= $this->storemanager->getStore()->getBaseUrl().'scuolapay/response';
               if($webhook){
@@ -113,12 +114,8 @@ class Scuolapayredirect extends \Magento\Framework\App\Action\Action
 	                            );
               }
 	     	  $this->_coreRegistry->register('orderdata', $orderData);
-        	//	$this->_view->loadLayout();
 		       $page = $this->pageFactory->create();
              return $page;
-        	//	$this->_view->renderLayout();
-		   /// $datetime = $this->_getDateTime();
-		   /// $currency = $this->getStoreCurrency();
         } else {
             die('.......');
             $this->getResponse()->setRedirect($this->getUrl());

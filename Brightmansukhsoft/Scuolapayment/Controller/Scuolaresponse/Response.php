@@ -101,15 +101,16 @@ class Response extends \Magento\Framework\App\Action\Action
                              $baseUrl= $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
                        //$resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
                       // $this->messageManager->addSuccess($result['message']);
-
+				    //	$this->checkoutSession->clearQuote();
                       // $this->_redirect('checkout/onepage/success');
                        header("Location:".$baseUrl.'checkout/onepage/success');
-                    } else if ($approval_code == '1') {
+                    } else if ($approval_code == '0') {
                         $order->setState(Order::STATE_CANCELED, true);
                         // Inventory updated 
                         $this->updateInventory($orderid);
                         $order->cancel()->save();
                         //die('fail');
+                       // $this->checkoutSession->clearQuote();
                         header("Location:".$baseUrl.'checkout/onepage/failure');
                         //$resultRedirect->setUrl('checkout/onepage/failure');
                         //return $resultRedirect;
@@ -120,6 +121,7 @@ class Response extends \Magento\Framework\App\Action\Action
                         $this->updateInventory($orderid);
                         $order->cancel()->save();
 						//die('fail');
+									//		$this->checkoutSession->clearQuote();
 						 header("Location:".$baseUrl.'checkout/onepage/failure');
 						//$resultRedirect->setUrl('checkout/onepage/failure');
 						 //return $resultRedirect;
@@ -131,6 +133,7 @@ class Response extends \Magento\Framework\App\Action\Action
                     // Inventory updated 
                     $this->updateInventory($orderid);
                     $order->cancel()->save();
+                   // $this->checkoutSession->clearQuote();
 					header("Location:".$baseUrl.'checkout/onepage/failure');
 					//$resultRedirect->setUrl('checkout/onepage/failure');
 				    //return $resultRedirect;

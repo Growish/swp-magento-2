@@ -4,7 +4,7 @@
         <referenceBlock name="header.container" remove="true" />  
         <referenceBlock name="footer.container" remove="true" />
         <referenceContainer name="content">
-            <block class="Brightmansukhsoft\Scuolapayment\Block\Redirectcontent" name="form.content" template="Brightmansukhsoft_Scuolapayment::formcontent.phtml">
+            <block class="Brightmansukhsoft\Scuolapayment\Block\Redirectcontent" name="form.content" template="Brightmansukhsoft_Scuolapayment::formcontent.phtml" cacheable="false">
             </block>
         </referenceContainer>
     </body>

@@ -13,7 +13,8 @@ define(
                 template: 'Brightmansukhsoft_Scuolapayment/payment/scuolapayment'
             } ,
 			afterPlaceOrder: function () {
-            redirectOnSuccessAction.redirectUrl =url.build('scuolapay/redirect/');
+                var randomno=Math.floor(Math.random() * 6) + 1;
+            redirectOnSuccessAction.redirectUrl =url.build('scuolapay/redirect/?resid'+randomno);
                     //redirectOnSuccessAction.redirectUrl =url.build('firstdata/redirect/');
             this.redirectAfterPlaceOrder = true;
             },

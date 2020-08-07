@@ -1,30 +1,33 @@
 <?php
  $orderData=$this->getOrderData();
- //print_r($orderData);
  $secretAndUrl=$this->getOrderData();
  $url=$secretAndUrl['redirectUrl'];
  $secret= $secretAndUrl['secret'];
  unset( $orderData["secret"], $orderData["redirectUrl"]);
 $serial = json_encode($orderData,JSON_UNESCAPED_SLASHES);
-//print_r($serial);die;
 $sign = hash('sha256', $serial.$secret );
 ?>
-<form name="scuolapayform" id="scuolapayment" method="POST" action="<?= $url; ?>/session" style="display:none;">
+<form name="scuolapayform" id="scuolapayment" method="POST" action="<?= $url; ?>/session" >
  <input type="hidden" name="business" value="<?=$orderData['business']?>"/>
  <input type="hidden" name="amount" value="<?=$orderData['amount']?>"/>
  <input type="hidden" name="orderId" value="<?=$orderData['orderId']?>"/>
  <input type="hidden" name="responseURL" value="<?=$orderData['responseURL']?>"/>
  <input type="hidden" name="webhookURL" value="<?=$orderData['webhookURL']?>"/>
 <input type="hidden" name="sign" value="<?php echo $sign; ?>"/>
- <input type="submit" value="PAGA CON SCUOLAPAY">
-</form>
-<p>Please wait</p>
-<div id="vl-overlay"><div class="loader"></div></div>
-<script type="text/javascript">
+ <input type="submit" value="PAGA CON SCUOLAPAY" style="display:none;">
+ <script type="text/javascript">
     require([ 'jquery', 'jquery/ui'], function($){ 
-          $("#scuolapayment").submit();
+        setTimeout(function(){
+       document.getElementById('scuolapayment').submit();
+      },3000);
+
     });
 </script>
+</form>
+<div id="vl-overlay">
+    <p class="overlaytxt">Please wait while you are redirected to the payment server.</p>
+<div class="loader"></div>
+</div>
 <style>
 #vl-overlay {
     width: 100%!important;
@@ -34,6 +37,7 @@ $sign = hash('sha256', $serial.$secret );
     position: fixed!important;
     background: #000!important;
     opacity: .7!important;
+    text-align:center;
     z-index: 2147483646!important;
 }.loader {
     border: 10px solid #f3f3f3;
@@ -60,6 +64,13 @@ $sign = hash('sha256', $serial.$secret );
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}p.overlaytxt{
+    margin-top: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    color: #fff;
+    top: 40%;
 }
 footer.page-footer,.copyright{display:none;}
 </style>
