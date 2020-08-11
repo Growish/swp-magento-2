@@ -1,25 +1,25 @@
 <?php
- $orderData=$this->getOrderData();
- $secretAndUrl=$this->getOrderData();
- $url=$secretAndUrl['redirectUrl'];
- $secret= $secretAndUrl['secret'];
- unset( $orderData["secret"], $orderData["redirectUrl"]);
-$serial = json_encode($orderData,JSON_UNESCAPED_SLASHES);
-$sign = hash('sha256', $serial.$secret );
+$orderData    = $this->getOrderData();
+$secretAndUrl = $this->getOrderData();
+$url          = $secretAndUrl['redirectUrl'];
+$secret       = $secretAndUrl['secret'];
+unset($orderData["secret"], $orderData["redirectUrl"]);
+$serial = json_encode($orderData, JSON_UNESCAPED_SLASHES);
+$sign   = hash('sha256', $serial . $secret);
 ?>
 <form name="scuolapayform" id="scuolapayment" method="POST" action="<?= $url; ?>/session" >
- <input type="hidden" name="business" value="<?=$orderData['business']?>"/>
- <input type="hidden" name="amount" value="<?=$orderData['amount']?>"/>
- <input type="hidden" name="orderId" value="<?=$orderData['orderId']?>"/>
- <input type="hidden" name="responseURL" value="<?=$orderData['responseURL']?>"/>
- <input type="hidden" name="webhookURL" value="<?=$orderData['webhookURL']?>"/>
+ <input type="hidden" name="business" value="<?= $orderData['business'] ?>"/>
+ <input type="hidden" name="amount" value="<?= $orderData['amount'] ?>"/>
+ <input type="hidden" name="orderId" value="<?= $orderData['orderId'] ?>"/>
+ <input type="hidden" name="responseURL" value="<?= $orderData['responseURL'] ?>"/>
+ <input type="hidden" name="webhookURL" value="<?= $orderData['webhookURL'] ?>"/>
 <input type="hidden" name="sign" value="<?php echo $sign; ?>"/>
  <input type="submit" value="PAGA CON SCUOLAPAY" style="display:none;">
  <script type="text/javascript">
-    require([ 'jquery', 'jquery/ui'], function($){ 
+   require([ 'jquery', 'jquery/ui'], function($){ 
         setTimeout(function(){
        document.getElementById('scuolapayment').submit();
-      },3000);
+      },2000);
 
     });
 </script>

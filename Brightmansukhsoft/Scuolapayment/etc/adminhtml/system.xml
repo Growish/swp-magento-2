@@ -42,6 +42,7 @@
 							<field id="environment">Integration</field>
 							<validate>required-entry</validate>
 						</depends>
+						    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
 					</field>
 					<field id="integrate_bussiness" translate="label" type="text" sortOrder="6" showInDefault="1"
 						   showInWebsite="1" showInStore="0">
@@ -73,6 +74,7 @@
                         <field id="environment">Production</field>
                     </depends>
                     <validate>required-entry</validate>
+					    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
                 <field id="production_bussiness" translate="label" type="text" sortOrder="14" showInDefault="1"
                        showInWebsite="1" showInStore="0">
